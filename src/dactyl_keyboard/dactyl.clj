@@ -60,7 +60,7 @@
 (def wall-xy-offset 0.5)                  ; offset in the x and/or y direction for the first downward-sloping part of the wall (negative)
 (def wall-thickness 2)                  ; wall thickness parameter; originally 5
 
-(def add-palm-rest false)                ; Extends the base plate to accomodate a palm rest
+(def add-palm-rest true)                ; Extends the base plate to accomodate a palm rest
 
 ;; Settings for column-style == :fixed
 ;; The defaults roughly match Maltron settings
@@ -74,7 +74,7 @@
 
 ; If you use Cherry MX or Gateron switches, this can be turned on.
 ; If you use other switches such as Kailh, you should set this as false
-(def create-side-nubs? true)
+(def create-side-nubs? false)
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; General variables ;;
@@ -1255,8 +1255,8 @@
       (write-scad (mirror [-1 0 0] plate-right)))
 
 ; Complete model - useful for testing
-; (spit "things/complete.scad"
-;       (write-scad (union model-right plate-right)))
+ (spit "things/complete.scad"
+       (write-scad (union model-right plate-right)))
 
 
 ;;;;;;;;;;;;;;;;
@@ -1264,75 +1264,75 @@
 ;;;;;;;;;;;;;;;;
 
 ; Cherry stabilizer unit test
-; (def test-plate (let [plate-height sa-double-length]
-;   (->> (cube mount-width plate-height web-thickness)
-;                        (translate [0 0
-;                                    (- plate-thickness (/ web-thickness 2))]))))
-; (def stabilizer-unit-test
-;   (difference 
-;     (union
-;       plate-2u
-;       (translate [mount-width 0 0] test-plate)
-;       (translate [(- mount-width) 0 0] test-plate)
-;     )
-;     stabilizer-cutout-2u
-;   )
-; )
-; (spit "things/stabilizer-unit-test.scad"
-;       (write-scad stabilizer-unit-test))
+ (def test-plate (let [plate-height sa-double-length]
+   (->> (cube mount-width plate-height web-thickness)
+                        (translate [0 0
+                                    (- plate-thickness (/ web-thickness 2))]))))
+ (def stabilizer-unit-test
+   (difference 
+     (union
+       plate-2u
+       (translate [mount-width 0 0] test-plate)
+       (translate [(- mount-width) 0 0] test-plate)
+     )
+     stabilizer-cutout-2u
+   )
+ )
+ (spit "things/stabilizer-unit-test.scad"
+       (write-scad stabilizer-unit-test))
 
 ; Countersink unit test
-; (spit "things/countersink-unit-test.scad"
-;   (write-scad 
-;     (intersection plate-right (translate palm-screw-two (cube 12, 12, 12)))
-;   )
-; )
+ (spit "things/countersink-unit-test.scad"
+   (write-scad 
+     (intersection plate-right (translate palm-screw-two (cube 12, 12, 12)))
+   )
+ )
 
 ; Nicenano holder unit test
-; (def nicenano-holder-test
-;   (let [
-;     holder (make-nicenano-holder [0 0 0] 0)
-;   ]
-;     (union
-;       ;dummy floor
-;       (translate
-;         [0  (- 2) (- 1)]
-;         (mcube [22.4 37.7 1])
-;       )
-;       (first holder)
-;       (second (second holder))
-;       (difference
-;         ; dummy front wall
-;         (translate
-;           [0 (- 2) 0]
-;           (mcube [22.4 2 10])
-;         )
-;         (first (second holder))
-;       )
-;     )
-;   )
-; )
-; (spit "things/nicenano-holder.scad"
-;   (write-scad nicenano-holder-test)
-; )
+ (def nicenano-holder-test
+   (let [
+     holder (make-nicenano-holder [0 0 0] 0)
+   ]
+     (union
+       ;dummy floor
+       (translate
+         [0  (- 2) (- 1)]
+         (mcube [22.4 37.7 1])
+       )
+       (first holder)
+       (second (second holder))
+       (difference
+         ; dummy front wall
+         (translate
+           [0 (- 2) 0]
+           (mcube [22.4 2 10])
+         )
+         (first (second holder))
+       )
+     )
+   )
+ )
+ (spit "things/nicenano-holder.scad"
+   (write-scad nicenano-holder-test)
+ )
 
 ; Nicenano holder integration test
-; (def unit-test-position [-78 60 0])
-; (def unit-test-cube   (cube 150 120 40))
-; (def unit-test-space  (translate unit-test-position unit-test-cube))
+ (def unit-test-position [-78 60 0])
+ (def unit-test-cube   (cube 150 120 40))
+ (def unit-test-space  (translate unit-test-position unit-test-cube))
 
-; (spit "things/nicenano-integration-test-plate.scad" 
-;       (write-scad (intersection (translate [0 0 (- 2.6)] plate-right) unit-test-space)))
-; (spit "things/nicenano-integration-test-wall.scad" 
-;       (write-scad (intersection model-right unit-test-space)))
+ (spit "things/nicenano-integration-test-plate.scad" 
+       (write-scad (intersection (translate [0 0 (- 2.6)] plate-right) unit-test-space)))
+ (spit "things/nicenano-integration-test-wall.scad" 
+       (write-scad (intersection model-right unit-test-space)))
 
 
 ; Thumb cluster unit test
-; (def unit-test-position [-55 -60 0])
-; (def unit-test-cube   (cube 100 150 200))
-; (def unit-test-space  (translate unit-test-position unit-test-cube))
-; (def unit-test (intersection model-right unit-test-space))
-; (spit "things/thumb-cluster-unit-test.scad" 
-;       (write-scad unit-test))
+ (def unit-test-position [-55 -60 0])
+ (def unit-test-cube   (cube 100 150 200))
+ (def unit-test-space  (translate unit-test-position unit-test-cube))
+ (def unit-test (intersection model-right unit-test-space))
+ (spit "things/thumb-cluster-unit-test.scad" 
+       (write-scad unit-test))
 
 (defn -main [dum] 1)  ; dummy to make it easier to batch
